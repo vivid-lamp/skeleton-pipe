@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\App\Middleware;
+namespace VividLamp\PipeSkeleton\App\Middleware;
 
 use FastRoute\Dispatcher;
-use Framework\Bootstrap\App;
+use VividLamp\PipeSkeleton\Bootstrap\App;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -44,15 +44,15 @@ class RouteMiddleware implements MiddlewareInterface
         $callback($collector);
     }
 
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $uri = $request->getUri()->getPath();
         $method = $request->getMethod();
 
+
         $info = $this->dispatcher->dispatch($method, $uri);
-
         $routeStatus = $info[0];
-
         switch ($routeStatus) {
             case Dispatcher::NOT_FOUND:
             case Dispatcher::METHOD_NOT_ALLOWED:
@@ -61,9 +61,8 @@ class RouteMiddleware implements MiddlewareInterface
         }
 
         $routeHandler = $info[1];
-
         $routeParam = $info[2] ?? [];
-
+        
         foreach ($routeParam as $key => $val) {
             $request = $request->withAttribute($key, $val);
         }

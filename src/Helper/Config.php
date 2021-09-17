@@ -1,10 +1,6 @@
 <?php
 
-
-namespace Framework\App\Helper;
-
-
-use Framework\Bootstrap\App;
+namespace VividLamp\PipeSkeleton\Helper;
 
 /**
  * Class Config
@@ -31,5 +27,4 @@ class Config
         }
         return $content;
     }
-
 }

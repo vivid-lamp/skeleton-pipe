@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Bootstrap;
+namespace VividLamp\PipeSkeleton\Bootstrap;
 
 use Illuminate\Container\Container;
 use Psr\Http\Message\ResponseInterface;
@@ -101,12 +101,12 @@ class App
 
     public function getRuntimePath()
     {
-        return $this->getBasePath() . 'Runtime/';
+        return $this->getBasePath() . 'runtime/';
     }
 
     public function getCachePath()
     {
-        return $this->getRuntimePath() . 'Cache/';
+        return $this->getRuntimePath() . 'cache/';
     }
 
 }

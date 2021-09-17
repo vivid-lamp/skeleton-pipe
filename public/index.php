@@ -1,25 +1,32 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Framework;
+// namespace VividLamp\PipeSkeleton;
 
-use Framework\App\Middleware\ExceptionHandlerMiddleware;
-use Framework\App\Middleware\InitializeMiddleware;
-use Framework\App\Middleware\RouteMiddleware;
-use Framework\App\Middleware\RouteMissedMiddleware;
-use Framework\Bootstrap\App;
-
-$app = new App(__DIR__ . '/');
+use VividLamp\PipeSkeleton\App\Middleware\ExceptionHandlerMiddleware;
+use VividLamp\PipeSkeleton\App\Middleware\InitializeMiddleware;
+use VividLamp\PipeSkeleton\App\Middleware\RouteMiddleware;
+use VividLamp\PipeSkeleton\App\Middleware\RouteMissedMiddleware;
+use VividLamp\PipeSkeleton\Bootstrap\App;
 
 
 error_reporting(E_ALL);
 
-$app->pipe(ExceptionHandlerMiddleware::class);
+// 避免污染全局变量
+(function () {
 
-$app->pipe(InitializeMiddleware::class);
+    require_once __DIR__ . '/../vendor/autoload.php';
 
-$app->pipe(RouteMiddleware::class);
+    $app = new App(__DIR__ . '/../');
 
-$app->pipe(RouteMissedMiddleware::class);
+    $app->pipe(ExceptionHandlerMiddleware::class);
 
-$app->run();
+    $app->pipe(InitializeMiddleware::class);
+
+    $app->pipe(RouteMiddleware::class);
+
+    $app->pipe(RouteMissedMiddleware::class);
+
+    $app->run();
+})();

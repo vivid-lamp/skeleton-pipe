@@ -1,11 +1,10 @@
 <?php
 
-namespace Framework\Config;
+namespace VividLamp\PipeSkeleton\Config;
 
 use FastRoute\RouteCollector;
-use Framework\App\Admin\Controller\SeoSsi;
-use Framework\App\Admin\Middleware\AuthMiddleware;
-use Framework\App\Middleware\RouteMiddleware;
+use VividLamp\PipeSkeleton\App\Controller\Home;
+use VividLamp\PipeSkeleton\App\Middleware\RouteMiddleware;
 
 /**
  * 辅助返回形如 [middleware1, middleware1, ..., handler] 的数据结构
@@ -33,8 +32,8 @@ $aggregation = new class {
  */
 return function (RouteCollector $collector) use ($aggregation) {
     
-        $aggregation->middleware(AuthMiddleware::class);
+        // $aggregation->middleware(AuthMiddleware::class);
 
-        $collector->addRoute('GET', '/', $aggregation->handler(SeoSsi::class . '@list'));
+        $collector->addRoute('GET', '/', $aggregation->handler(Home::class . '@index'));
        
 };

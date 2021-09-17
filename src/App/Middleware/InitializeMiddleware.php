@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\App\Middleware;
+namespace VividLamp\PipeSkeleton\App\Middleware;
 
-use Framework\Bootstrap\App;
+use VividLamp\PipeSkeleton\Bootstrap\App;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -31,7 +31,7 @@ class InitializeMiddleware implements MiddlewareInterface
 
 
     /**
-     * 初始化 think-db
+     * 初始化 DB
      */
     protected function initDb()
     {

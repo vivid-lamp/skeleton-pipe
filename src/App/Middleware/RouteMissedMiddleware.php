@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Framework\App\Middleware;
+namespace VividLamp\PipeSkeleton\App\Middleware;
 
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;

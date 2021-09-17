@@ -1,17 +1,14 @@
 <?php
 
-namespace Framework\App\Middleware;
+namespace VividLamp\PipeSkeleton\App\Middleware;
 
 use ErrorException;
-use Framework\App\Helper\ApiResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
-use think\exception\ValidateException;
 use Throwable;
+use VividLamp\PipeSkeleton\Helper\ApiResponse;
 
 /**
  * 注册和捕获异常
@@ -32,14 +29,12 @@ class ExceptionHandlerMiddleware implements MiddlewareInterface
 
     public function exceptionHandle(Throwable $e): ResponseInterface
     {
-        if ($e instanceof ValidateException) {
-            return ApiResponse::error($e->getMessage());
-        } elseif ($e instanceof ModelNotFoundException || $e instanceof DataNotFoundException) {
-            return ApiResponse::error('参数错误：数据未找到');
-        } else {
-            // some log
-            return ApiResponse::error('系统错误');
-        }
+        // if ($e instanceof ValidateException) {
+        //     return ApiResponse::error($e->getMessage());
+        // }
+
+        // some logs
+        return ApiResponse::error('系统错误');
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Framework\Bootstrap;
+namespace VividLamp\PipeSkeleton\Bootstrap;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use OutOfBoundsException;
