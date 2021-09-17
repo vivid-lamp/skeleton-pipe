@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VividLamp\PipeSkeleton\Bootstrap;
 
 use Illuminate\Container\Container;
@@ -108,5 +110,4 @@ class App
     {
         return $this->getRuntimePath() . 'cache/';
     }
-
 }

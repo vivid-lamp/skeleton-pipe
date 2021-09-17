@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VividLamp\PipeSkeleton\App\Middleware;
 
 use FastRoute\Dispatcher;

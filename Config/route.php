@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VividLamp\PipeSkeleton\Config;
 
 use FastRoute\RouteCollector;
@@ -34,6 +36,5 @@ return function (RouteCollector $collector) use ($aggregation) {
     
         // $aggregation->middleware(AuthMiddleware::class);
 
-        $collector->addRoute('GET', '/', $aggregation->handler(Home::class . '@index'));
-       
+    $collector->addRoute('GET', '/', $aggregation->handler(Home::class . '@index'));
 };

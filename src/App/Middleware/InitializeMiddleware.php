@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VividLamp\PipeSkeleton\App\Middleware;
 
 use VividLamp\PipeSkeleton\Bootstrap\App;
@@ -7,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-
 
 /**
  * 初始化框架
@@ -29,12 +30,10 @@ class InitializeMiddleware implements MiddlewareInterface
         return $handler->handle($request);
     }
 
-
     /**
      * 初始化 DB
      */
     protected function initDb()
     {
-        
     }
 }

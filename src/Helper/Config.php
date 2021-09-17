@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace VividLamp\PipeSkeleton\Helper;
 
 /**
@@ -8,7 +10,6 @@ namespace VividLamp\PipeSkeleton\Helper;
  */
 class Config
 {
-
     private static $configDir = __DIR__ . '/../../Config/';
 
     public static function get($name, $default = null)
