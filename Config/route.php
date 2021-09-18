@@ -36,5 +36,5 @@ return function (RouteCollector $collector) use ($aggregation) {
     
         // $aggregation->middleware(AuthMiddleware::class);
 
-    $collector->addRoute('GET', '/', $aggregation->handler(Home::class . '@index'));
+    $collector->get('/', $aggregation->handler(Home::class . '@index'));
 };

@@ -50,7 +50,7 @@ class App
     /**
      * 添加中间件
      * middleware 类名或对象
-     * @param mixed $middleware 中间件类、对象，或其可执行对象
+     * @param mixed $middleware 中间件类、对象，或其他可执行对象
      * @param bool  $atHead   是否在队头添加
      */
     public function pipe($middleware, $atHead = false)
