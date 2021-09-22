@@ -42,7 +42,7 @@ class RouteMiddleware implements MiddlewareInterface
      */
     protected function route(RouteCollector $collector)
     {
-        $callback = require $this->app->getBasePath() . 'Config/route.php';
+        $callback = require $this->app->getBasePath() . 'config/route.php';
         $callback($collector);
     }
 
