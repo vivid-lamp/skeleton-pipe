@@ -6,7 +6,7 @@ namespace VividLamp\PipeSkeleton\App\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use VividLamp\PipeSkeleton\Helper\ApiResponse;
+use VividLamp\PipeSkeleton\Facades\ApiResponse;
 
 class Home
 {

@@ -11,12 +11,11 @@ use Laminas\Diactoros\ServerRequestFactory;
 use SplQueue;
 
 /**
- * Class App
  * @author zhanglihui
  */
 class App
 {
-    /**  @var SplQueue */
+    /** @var SplQueue */
     protected $queue;
 
     /** @var Container  */
@@ -34,11 +33,17 @@ class App
 
         $this->queue = new SplQueue();
 
+        static::$instance = $this;
+
+        $this->initialize();
+    }
+
+    public function initialize()
+    {
         $this->container = new Container();
         Container::setInstance($this->container);
-        $this->container->instance(App::class, $this);
 
-        static::$instance = $this;
+        $this->container->instance(App::class, $this);
     }
 
     /** @return App */
@@ -88,6 +93,7 @@ class App
 
     public function emit(ResponseInterface $response)
     {
+        http_response_code($response->getStatusCode());
         foreach ($response->getHeaders() as $name => $values) {
             foreach ($values as $value) {
                 header(sprintf('%s: %s', $name, $value), false);

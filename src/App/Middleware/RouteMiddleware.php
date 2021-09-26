@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use FastRoute\RouteCollector;
+
 use function FastRoute\simpleDispatcher;
 
 /**
@@ -73,7 +74,7 @@ class RouteMiddleware implements MiddlewareInterface
             return $this->app->getContainer()->call($routeHandler, [ServerRequestInterface::class => $request]);
         }, true);
 
-        /* 将中间件反转过来添加到队列头部 */
+        /* 将路由中间件添加到队列头部 */
         if (isset($middleware) && count($middleware) > 0) {
             $this->app->pipe(end($middleware), true);
             while ($foo = prev($middleware)) {

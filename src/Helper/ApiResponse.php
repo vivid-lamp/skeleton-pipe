@@ -24,9 +24,9 @@ class ApiResponse
      * @param array         $mixin      自定义字段
      * @return Response
      */
-    public static function success($msg = '', $data = '', array $mixin = [], array $header = []): ResponseInterface
+    public function success($msg = '', $data = '', array $mixin = [], array $header = []): ResponseInterface
     {
-        return static::result($msg, 0, $data, $mixin, $header);
+        return $this->result($msg, 0, $data, $mixin, $header);
     }
 
     /**
@@ -38,9 +38,9 @@ class ApiResponse
      * @param array         $mixin      自定义字段
      * @return Response
      */
-    public static function error($msg = '', $code = 400, $data = '', array $mixin = [], array $header = []): ResponseInterface
+    public function error($msg = '', $code = 400, $data = '', array $mixin = [], array $header = []): ResponseInterface
     {
-        return static::result($msg, $code, $data, $mixin, $header);
+        return $this->result($msg, $code, $data, $mixin, $header);
     }
 
 

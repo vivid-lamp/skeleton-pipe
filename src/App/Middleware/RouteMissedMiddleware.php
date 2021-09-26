@@ -21,7 +21,7 @@ class RouteMissedMiddleware implements MiddlewareInterface
         
         $response = new Response();
         if ($routeStatus === Dispatcher::NOT_FOUND) {
-            $response = $response->withStatus(404)->withHeader('Content-Type', 'text/plain');
+            $response = $response->withHeader('Content-Type', 'text/plain')->withStatus(404);
             $response->getBody()->write('not found.');
         } elseif ($routeStatus === Dispatcher::METHOD_NOT_ALLOWED) {
             $response = $response->withStatus(405)->withHeader('Content-Type', 'text/plain');

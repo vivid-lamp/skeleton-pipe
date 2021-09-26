@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace VividLamp\PipeSkeleton\Bootstrap;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use OutOfBoundsException;
+use SplQueue;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
-use SplQueue;
 
 /**
  * 核心中间件调度

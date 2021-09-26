@@ -9,6 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use VividLamp\PipeSkeleton\Helper\ApiResponse;
+use VividLamp\PipeSkeleton\Helper\Config;
+use VividLamp\PipeSkeleton\Helper\Env;
 
 /**
  * 初始化框架
@@ -27,7 +30,20 @@ class InitializeMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->initDb();
+        $this->bindsServices();
+
         return $handler->handle($request);
+    }
+
+    protected function bindsServices()
+    {
+        $this->app->getContainer()->singleton(Env::class, function () {
+            return new Env($this->app->getBasePath() . '.env');
+        });
+        $this->app->getContainer()->singleton(Config::class, function () {
+            return new Config($this->app->getBasePath() . 'config/');
+        });
+        $this->app->getContainer()->singleton(ApiResponse::class);
     }
 
     /**
