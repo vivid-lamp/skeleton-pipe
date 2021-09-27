@@ -44,7 +44,7 @@ class ApiResponse
     }
 
 
-    public static function result($msg = '', int $code = 0, $data = '', array $mixin = [], array $headers = []): ResponseInterface
+    public function result($msg = '', int $code = 0, $data = '', array $mixin = [], array $headers = []): ResponseInterface
     {
         $result   = [
             'code' => $code,

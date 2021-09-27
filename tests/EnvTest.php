@@ -7,22 +7,24 @@ use VividLamp\PipeSkeleton\Helper\Env;
 
 class EnvTest extends TestCase
 {
-    protected function getEntry()
+    public function testConstruct()
     {
-        return new Env(__DIR__ . '/resource/.env');
+        $entry = new Env(__DIR__ . '/resource/.env');
+        $this->assertInstanceOf(Env::class, $entry);
+        return $entry;
     }
 
-    public function testGetMethod()
+    /** @depends testConstruct */
+    public function testGet($entry)
     {
-        $env = $this->getEntry();
-        $name = $env->get('name');
+        $name = $entry->get('name');
         $this->assertEquals($name, 'thisIsName');
     }
 
-    public function testAllMethod()
+    /** @depends testConstruct */
+    public function testAll($entry)
     {
-        $env = $this->getEntry();
-        $content = $env->all();
+        $content = $entry->all();
         $this->assertIsArray($content);
         $this->assertArrayHasKey('DB', $content);
         $this->assertEquals($content['DB']['database'], 'aDataBase');

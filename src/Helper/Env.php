@@ -10,10 +10,7 @@ class Env
     protected $path;
 
     /** @var mixed */
-    protected $content;
-
-    /** @var bool */
-    protected $parsed;
+    protected $content = false;
 
     public function __construct(string $path)
     {
@@ -22,16 +19,18 @@ class Env
 
     public function parse()
     {
-        return $this->parsed
-            ? $this->content
-            : $this->content = parse_ini_file($this->path, true);
+        if ($this->content === false) {
+            $content = parse_ini_file($this->path, true);
+            $this->content = $content === false ? null : $content;
+        }
+        return $this->content;
     }
 
     public function get(string $name, $default = null)
     {
         $content = $this->parse();
     
-        if ($content === false) {
+        if ($content === null) {
             return $default;
         }
         $nameSeparate = explode('.', $name);

@@ -7,16 +7,23 @@ use VividLamp\PipeSkeleton\Helper\Config;
 
 class ConfigTest extends TestCase
 {
-    protected function getEntry()
+    public function testConstruct()
     {
-        return new Config(__DIR__ . '/resource/');
+        $entry = new Config(__DIR__ . '/resource/');
+        $this->assertInstanceOf(Config::class, $entry);
+        return $entry;
     }
 
-    public function testGetMethod()
+    /** @depends testConstruct */
+    public function testGet(Config $entry)
     {
-        $name = $this->getEntry()->get('config-data.name');
-
+        $name = $entry->get('config-data.name');
         $this->assertEquals($name, 'thisIsName');
-        $this->assertIsArray($this->getEntry()->get('config-data.db'));
+
+        $this->assertIsArray($entry->get('config-data.db'));
+        $this->assertArrayHasKey('database', $entry->get('config-data.db'));
+        $this->assertEquals($entry->get('config-data.db')['database'], 'demo');
+
+        $this->assertEquals($entry->get('config-data.db.database-null'), null);
     }
 }

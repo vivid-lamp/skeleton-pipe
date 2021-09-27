@@ -14,14 +14,17 @@ use VividLamp\PipeSkeleton\Helper\Config;
 
 class FacadesTest extends TestCase
 {
-    protected function getApp()
+
+    public function testGetApp()
     {
-        return new App(__DIR__);
+        $app = new App(__DIR__);
+        $this->assertInstanceOf(App::class, $app);
+        return $app;
     }
 
-    public function testEnvFacade()
+    /** @depends testGetApp */
+    public function testEnvFacade($app)
     {
-        $app = $this->getApp();
         $app->getContainer()->singleton(Env::class, function () {
             return new Env(__DIR__ . '/resource/.env');
         });
@@ -29,17 +32,17 @@ class FacadesTest extends TestCase
         $this->assertEquals($name, 'thisIsName');
     }
 
-    public function testApiResponseFacade()
+    /** @depends testGetApp */
+    public function testApiResponseFacade($app)
     {
-        $app = $this->getApp();
         $app->getContainer()->singleton(ApiResponse::class);
     
         $this->assertInstanceOf(ResponseInterface::class, FacadesApiResponse::success());
     }
 
-    public function testConfigFacade()
+    /** @depends testGetApp */
+    public function testConfigFacade($app)
     {
-        $app = $this->getApp();
         $app->getContainer()->singleton(Config::class, function () {
             return new Config(__DIR__ . '/resource/');
         });
