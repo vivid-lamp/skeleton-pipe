@@ -30,12 +30,12 @@ class InitializeMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->initDb();
-        $this->bindsServices();
+        $this->bindServices();
 
         return $handler->handle($request);
     }
 
-    protected function bindsServices()
+    protected function bindServices()
     {
         $this->app->getContainer()->singleton(Env::class, function () {
             return new Env($this->app->getBasePath() . '.env');
