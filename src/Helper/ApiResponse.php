@@ -19,9 +19,9 @@ class ApiResponse
     /**
      * 成功输出
      * @param mixed         $data       数据
-     * @param string        $msg        消息
-     * @param array         $headers     响应头
-     * @param array         $mixin      自定义字段
+     * @param string|null   $msg        消息
+     * @param array|null    $headers    响应头
+     * @param array|null    $mixin      自定义字段
      * @return ResponseInterface
      */
     public function success(?string $msg = null, $data = null, ?array $mixin = null, ?array $headers = null): ResponseInterface
@@ -32,10 +32,10 @@ class ApiResponse
     /**
      * 失败输出
      * @param mixed         $data       数据
-     * @param string        $msg        消息
+     * @param string|null   $msg        消息
      * @param int           $code       结果码
-     * @param array         $headers    响应头
-     * @param array         $mixin      自定义字段
+     * @param array|null    $headers    响应头
+     * @param array|null    $mixin      自定义字段
      * @return ResponseInterface
      */
     public function error(?string $msg = null, int $code = 1, $data = null, ?array $mixin = null, ?array $headers = null): ResponseInterface
@@ -46,11 +46,11 @@ class ApiResponse
 
     /**
      * 自定义输出
-     * @param string        $msg        消息
+     * @param string|null   $msg        消息
      * @param int           $code       结果码
      * @param mixed         $data       数据
-     * @param array         $mixin      自定义字段
-     * @param array         $headers    响应头
+     * @param array|null    $mixin      自定义字段
+     * @param array|null    $headers    响应头
      */
     public function result(?string $msg = null, int $code = 0, $data = null, ?array $mixin = null, ?array $headers = null): ResponseInterface
     {
