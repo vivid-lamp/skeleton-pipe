@@ -20,13 +20,13 @@ class ApiResponse
      * 成功输出
      * @param mixed         $data       数据
      * @param string        $msg        消息
-     * @param array         $header     响应头
+     * @param array         $headers     响应头
      * @param array         $mixin      自定义字段
-     * @return Response
+     * @return ResponseInterface
      */
-    public function success($msg = '', $data = '', array $mixin = [], array $header = []): ResponseInterface
+    public function success(?string $msg = null, $data = null, ?array $mixin = null, ?array $headers = null): ResponseInterface
     {
-        return $this->result($msg, 0, $data, $mixin, $header);
+        return $this->result($msg, 0, $data, $mixin, $headers);
     }
 
     /**
@@ -34,17 +34,25 @@ class ApiResponse
      * @param mixed         $data       数据
      * @param string        $msg        消息
      * @param int           $code       结果码
-     * @param array         $header     响应头
+     * @param array         $headers    响应头
      * @param array         $mixin      自定义字段
-     * @return Response
+     * @return ResponseInterface
      */
-    public function error($msg = '', $code = 400, $data = '', array $mixin = [], array $header = []): ResponseInterface
+    public function error(?string $msg = null, int $code = 1, $data = null, ?array $mixin = null, ?array $headers = null): ResponseInterface
     {
-        return $this->result($msg, $code, $data, $mixin, $header);
+        return $this->result($msg, $code, $data, $mixin, $headers);
     }
 
 
-    public function result($msg = '', int $code = 0, $data = '', array $mixin = [], array $headers = []): ResponseInterface
+    /**
+     * 自定义输出
+     * @param string        $msg        消息
+     * @param int           $code       结果码
+     * @param mixed         $data       数据
+     * @param array         $mixin      自定义字段
+     * @param array         $headers    响应头
+     */
+    public function result(?string $msg = null, int $code = 0, $data = null, ?array $mixin = null, ?array $headers = null): ResponseInterface
     {
         $result   = [
             'code' => $code,
@@ -53,10 +61,10 @@ class ApiResponse
             'data' => $data,
         ];
 
-        if (! empty($mixin)) {
+        if (isset($mixin)) {
             $result = array_merge($result, $mixin);
         }
 
-        return new JsonResponse($result, 200, $headers);
+        return new JsonResponse($result, 200, $headers ?? []);
     }
 }
