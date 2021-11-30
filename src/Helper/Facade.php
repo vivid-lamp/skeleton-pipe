@@ -14,7 +14,7 @@ abstract class Facade
     }
 
     abstract protected static function getFacadeClass(): string;
-    
+
     public static function __callStatic($method, $params)
     {
         return call_user_func_array([static::createFacade(), $method], $params);

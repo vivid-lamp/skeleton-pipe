@@ -29,7 +29,7 @@ class Env
     public function get(string $name, $default = null)
     {
         $content = $this->parse();
-    
+
         if ($content === null) {
             return $default;
         }

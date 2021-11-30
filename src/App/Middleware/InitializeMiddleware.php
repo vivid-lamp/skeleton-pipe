@@ -29,7 +29,6 @@ class InitializeMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->initDb();
         $this->bindServices();
 
         return $handler->handle($request);
@@ -44,12 +43,5 @@ class InitializeMiddleware implements MiddlewareInterface
             return new Config($this->app->getBasePath() . 'config/');
         });
         $this->app->getContainer()->singleton(ApiResponse::class);
-    }
-
-    /**
-     * 初始化 DB
-     */
-    protected function initDb()
-    {
     }
 }

@@ -77,7 +77,7 @@ class RouteMiddleware implements MiddlewareInterface
         /* 将路由中间件添加到队列头部 */
         if (isset($middleware) && count($middleware) > 0) {
             $this->app->pipe(end($middleware), true);
-            while ($foo = prev($middleware)) {
+            while (false !== ($foo = prev($middleware))) {
                 $this->app->pipe($foo, true);
             }
         }

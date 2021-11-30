@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace VividLamp\PipeSkeleton\App\Middleware;
 
 use Laminas\Diactoros\Response;
@@ -18,7 +17,7 @@ class RouteMissedMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $routeStatus = $request->getAttribute('routeResult');
-        
+
         $response = new Response();
         if ($routeStatus === Dispatcher::NOT_FOUND) {
             $response = $response->withHeader('Content-Type', 'text/plain')->withStatus(404);
@@ -29,7 +28,7 @@ class RouteMissedMiddleware implements MiddlewareInterface
         } else {
             throw new LogicException('routeResult unrecognized.');
         }
-        
+
         return $response;
     }
 }

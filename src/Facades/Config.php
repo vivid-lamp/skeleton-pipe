@@ -6,6 +6,10 @@ namespace VividLamp\PipeSkeleton\Facades;
 
 use VividLamp\PipeSkeleton\Helper\Facade;
 
+/**
+ * @see \VividLamp\PipeSkeleton\Helper\Config
+ * @mixin \VividLamp\PipeSkeleton\Helper\Config
+ */
 class Config extends Facade
 {
     protected static function getFacadeClass(): string

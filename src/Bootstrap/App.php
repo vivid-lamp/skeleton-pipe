@@ -106,6 +106,7 @@ class App
                 header(sprintf('%s: %s', $name, $value), false);
             }
         }
+
         echo $response->getBody();
     }
 

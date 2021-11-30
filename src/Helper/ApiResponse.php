@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace VividLamp\PipeSkeleton\Helper;
 
 use Laminas\Diactoros\Response\JsonResponse;
@@ -15,7 +14,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ApiResponse
 {
-
     /**
      * 成功输出
      * @param mixed         $data       数据

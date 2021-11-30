@@ -9,7 +9,6 @@ namespace VividLamp\PipeSkeleton\Helper;
  */
 class Config
 {
-
     /** @var string */
     protected $path;
 
@@ -22,7 +21,7 @@ class Config
     {
         $nameSeparate = explode('.', $name);
         $configPath = $this->path . current($nameSeparate) . '.php';
-    
+
         if (!file_exists($configPath)) {
             return $default;
         }
