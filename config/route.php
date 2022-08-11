@@ -9,7 +9,6 @@ use VividLamp\PipeSkeleton\App\Controller\Home;
 use VividLamp\PipeSkeleton\App\Middleware\RouteMiddleware;
 
 /**
- * 辅助返回形如 [middleware1, middleware1, ..., handler] 的数据结构
  * @author zhanglihui
  */
 $aggregation = new class {
@@ -19,10 +18,14 @@ $aggregation = new class {
         $this->middleware = $middleware;
         return $this;
     }
-    /** @return string[]|string */
-    public function handler(string $handler)
+    /**
+     * @param string $handler
+     * @param string|null $name 路由名称，如 home.index
+     * @return array
+     */
+    public function handler(string $handler, ?string $name = null): array
     {
-        return $this->middleware ? array_merge($this->middleware, [$handler]) : $handler;
+        return ['handler' => $handler, 'middleware' => $this->middleware, 'name' => $name];
     }
 };
 
@@ -36,5 +39,5 @@ return function (RouteCollector $collector) use ($aggregation) {
     
         // $aggregation->middleware(AuthMiddleware::class);
 
-    $collector->get('/', $aggregation->handler(Home::class . '@index'));
+    $collector->get('/', $aggregation->handler(Home::class . '@index', 'home.index'));
 };

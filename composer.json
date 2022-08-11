@@ -13,7 +13,7 @@
         "nikic/fast-route": "^1.3",
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
-        "laminas/laminas-diactoros": "^2.6",
+        "laminas/laminas-diactoros": "^2.11",
         "illuminate/container": "^8.56",
       "ext-json": "*"
     },

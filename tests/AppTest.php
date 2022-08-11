@@ -6,35 +6,12 @@ use VividLamp\PipeSkeleton\Bootstrap\App;
 class AppTest extends TestCase
 {
 
-    public function basePathProvider() {
-        return [
-            [__DIR__ . '/../public/', null, null],
-            [__DIR__ . '/../public/', __DIR__ . '/../public/runtime/', null],
-            [__DIR__ . '/../public/', null, __DIR__ . '/../public/runtime/cache/'],
-            [__DIR__ . '/../public/', __DIR__ . '/../public/runtime/', __DIR__ . '/../public/runtime/cache/'],
-        ];
-    }
-
-    /** @dataProvider  basePathProvider */
-    public function testPaths($basePath, $runtimePath, $cachePath)
+    public function testPaths()
     {
-        $app = new App($basePath, $runtimePath, $cachePath);
+        $basePath = __DIR__;
+        $app = new App($basePath);
         $this->assertInstanceOf(App::class, $app);
         $this->assertEquals($app->getBasePath(), $basePath);
-
-        if ($runtimePath === null and $cachePath === null) {
-            $this->assertEquals($app->getRuntimePath(), $app->getBasePath() . 'runtime/');
-            $this->assertEquals($app->getCachePath(), $app->getRuntimePath() . 'cache/');
-        } elseif ($cachePath === null) {
-            $this->assertEquals($app->getRuntimePath(), $runtimePath);
-            $this->assertEquals($app->getCachePath(), $app->getRuntimePath() . 'cache/');
-        } elseif ($runtimePath === null) {
-            $this->assertEquals($app->getRuntimePath(), $app->getBasePath() . 'runtime/');
-            $this->assertEquals($app->getCachePath(), $cachePath);
-        } else {
-            $this->assertEquals($app->getRuntimePath(), $runtimePath);
-            $this->assertEquals($app->getCachePath(), $cachePath);
-        }
     }
 
     public function testPipe()
