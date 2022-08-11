@@ -6,11 +6,11 @@ namespace VividLamp\PipeSkeleton\Bootstrap;
 
 use OutOfBoundsException;
 use SplQueue;
+use LogicException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Server\MiddlewareInterface;
 
 /**
  * 核心中间件调度
@@ -45,11 +45,13 @@ class RequestHandler implements RequestHandlerInterface
 
         if (is_callable($middleware)) {
             return $middleware($request, $this);
-        } elseif (is_object($middleware) && $middleware instanceof MiddlewareInterface) {
+        } elseif (is_object($middleware)) {
+            return $middleware->process($request, $this);
+        } elseif (is_string($middleware)) {
+            $middleware = $this->app->getContainer()->get($middleware);
             return $middleware->process($request, $this);
         } else {
-            $middleware = $this->app->getContainer()->make($middleware);
-            return $middleware->process($request, $this);
+            throw new LogicException();
         }
     }
 }

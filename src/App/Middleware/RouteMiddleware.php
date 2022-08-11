@@ -50,24 +50,24 @@ class RouteMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $info = $this->dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
-        $routeStatus = $info[0];
+        $routeResult = $this->dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
 
-        if ($routeStatus !== Dispatcher::FOUND) {
-            $request = $request->withAttribute('routeResult', $routeStatus);
+        if ($routeResult[0] !== Dispatcher::FOUND) {
+            $request = $request->withAttribute('routeResult', $routeResult[0]);
             return $handler->handle($request);
         }
 
-        $routeParam = $info[2] ?? [];
-        foreach ($routeParam as $key => $val) {
-            $request = $request->withAttribute($key, $val);
+        /* 路由参数 */
+        if (isset($routeResult[2])) {
+            foreach ($routeResult[2] as $key => $val) {
+                $request = $request->withAttribute($key, $val);
+            }
         }
 
-        $routeHandler = $info[1];
-        if (is_array($routeHandler)) {
-            $middleware = $routeHandler;
-            $routeHandler = array_pop($middleware);
-        }
+        /* 获取路由配置里手动传入的参数 */
+        $middleware = $routeResult[1]['middleware'];
+        $routeHandler = $routeResult[1]['handler'];
+        $request = $request->withAttribute('routeName', $routeResult[1]['name']);
 
         /* 将控制器方法的执行放在中间件队列头部 */
         $this->app->pipe(function (ServerRequestInterface $request) use ($routeHandler) {

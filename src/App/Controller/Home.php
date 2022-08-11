@@ -12,6 +12,6 @@ class Home
 {
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return ApiResponse::success('this message is from home.');
+        return ApiResponse::success('this message is from home.', $request->getAttributes());
     }
 }

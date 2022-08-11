@@ -24,25 +24,15 @@ class App
     /** @var string */
     protected $basePath;
 
-    /** @var string */
-    protected $runtimePath;
-
-    /** @var string */
-    protected $cachePath;
-
     /** @var App */
     private static $instance;
 
     /**
      * @param string $basePath      框架目录
-     * @param string $runtimePath   runtime 目录
-     * @param string $cachePath     缓存目录
      */
-    public function __construct(string $basePath, ?string $runtimePath = null, ?string $cachePath = null)
+    public function __construct(string $basePath)
     {
         $this->basePath = $basePath;
-        $this->runtimePath = $runtimePath ?? $basePath . 'runtime/';
-        $this->cachePath = $cachePath ?? $this->runtimePath . 'cache/';
 
         $this->queue = new SplQueue();
 
@@ -60,7 +50,7 @@ class App
     }
 
     /** @return App */
-    public static function getInstance()
+    public static function getInstance(): App
     {
         return self::$instance;
     }
@@ -69,9 +59,9 @@ class App
      * 添加中间件
      * middleware 类名或对象
      * @param mixed $middleware 中间件类、对象，或其他可执行对象
-     * @param bool  $atHead   是否在队头添加
+     * @param bool $atHead   是否在队头添加
      */
-    public function pipe($middleware, $atHead = false)
+    public function pipe($middleware, bool $atHead = false)
     {
         if ($atHead) {
             $this->queue->unshift($middleware);
@@ -113,15 +103,5 @@ class App
     public function getBasePath(): string
     {
         return $this->basePath;
-    }
-
-    public function getRuntimePath(): string
-    {
-        return $this->runtimePath;
-    }
-
-    public function getCachePath(): string
-    {
-        return $this->cachePath;
     }
 }

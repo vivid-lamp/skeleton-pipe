@@ -18,12 +18,12 @@ class ConfigTest extends TestCase
     public function testGet(Config $entry)
     {
         $name = $entry->get('config-data.name');
-        $this->assertEquals($name, 'thisIsName');
+        $this->assertEquals('thisIsName', $name);
 
         $this->assertIsArray($entry->get('config-data.db'));
         $this->assertArrayHasKey('database', $entry->get('config-data.db'));
-        $this->assertEquals($entry->get('config-data.db')['database'], 'demo');
+        $this->assertEquals('demo', $entry->get('config-data.db')['database']);
 
-        $this->assertEquals($entry->get('config-data.db.database-null'), null);
+        $this->assertEquals(null, $entry->get('config-data.db.database-null'));
     }
 }
