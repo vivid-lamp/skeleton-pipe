@@ -2,20 +2,29 @@
 
 declare(strict_types=1);
 
-namespace VividLamp\PipeSkeleton\Helper;
+namespace Acme\Helper;
 
-use VividLamp\PipeSkeleton\Bootstrap\App;
+use Acme\Application;
 
 abstract class Facade
 {
-    protected static function createFacade()
+
+	/**
+	 * @throws \Psr\Container\ContainerExceptionInterface
+	 * @throws \Psr\Container\NotFoundExceptionInterface
+	 */
+	protected static function createFacade()
     {
-        return App::getInstance()->getContainer()->get(static::getFacadeClass());
+        return Application::get()->getContainer()->get(static::getFacadeClass());
     }
 
     abstract protected static function getFacadeClass(): string;
 
-    public static function __callStatic($method, $params)
+	/**
+	 * @throws \Psr\Container\ContainerExceptionInterface
+	 * @throws \Psr\Container\NotFoundExceptionInterface
+	 */
+	public static function __callStatic($method, $params)
     {
         return call_user_func_array([static::createFacade(), $method], $params);
     }

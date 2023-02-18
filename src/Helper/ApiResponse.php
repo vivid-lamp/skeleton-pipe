@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VividLamp\PipeSkeleton\Helper;
+namespace Acme\Helper;
 
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -63,6 +63,6 @@ class ApiResponse
             $result = array_merge($result, $mixin);
         }
 
-        return new JsonResponse($result, 200, $headers ?? []);
+        return new JsonResponse($result, 200, $headers ?? [], JSON_UNESCAPED_UNICODE);
     }
 }

@@ -2,33 +2,25 @@
 
 declare(strict_types=1);
 
-use VividLamp\PipeSkeleton\App\Middleware\ExceptionHandlerMiddleware;
-use VividLamp\PipeSkeleton\App\Middleware\InitializeMiddleware;
-use VividLamp\PipeSkeleton\App\Middleware\RouteMiddleware;
-use VividLamp\PipeSkeleton\App\Middleware\RouteMissedMiddleware;
-use VividLamp\PipeSkeleton\Bootstrap\App;
-
-
 // Delegate static file requests back to the PHP built-in webserver
 if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
     return false;
 }
 
-/**
- * Self-called anonymous function that creates its own scope and keeps the global namespace clean.
- */
-(function () {
-    require_once __DIR__ . '/../vendor/autoload.php';
 
-    $app = new App(__DIR__ . '/../');
+chdir(dirname(__DIR__));
 
-    $app->pipe(ExceptionHandlerMiddleware::class);
+require_once 'vendor/autoload.php';
 
-    $app->pipe(InitializeMiddleware::class);
+/** @var \Psr\Container\ContainerInterface $container */
+$container = require 'config/container.php';
 
-    $app->pipe(RouteMiddleware::class);
+/** @var \Acme\Application $application */
+$application = $container->get(\Acme\Application::class);
 
-    $app->pipe(RouteMissedMiddleware::class);
+$application->pipe(\Acme\App\Middleware\ExceptionHandlerMiddleware::class);
+$application->pipe(\Acme\App\Middleware\InitializeMiddleware::class);
+$application->pipe(\Mezzio\Helper\BodyParams\BodyParamsMiddleware::class);
+$application->pipe(\Acme\App\Middleware\RouteMiddleware::class);
 
-    $app->run();
-})();
+$application->run();

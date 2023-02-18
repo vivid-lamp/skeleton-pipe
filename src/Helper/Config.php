@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VividLamp\PipeSkeleton\Helper;
+namespace Acme\Helper;
 
 /**
  * @author zhanglihui
@@ -10,7 +10,7 @@ namespace VividLamp\PipeSkeleton\Helper;
 class Config
 {
     /** @var string */
-    protected $path;
+    protected string $path;
 
     public function __construct(string $path)
     {

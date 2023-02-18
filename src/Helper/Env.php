@@ -2,49 +2,51 @@
 
 declare(strict_types=1);
 
-namespace VividLamp\PipeSkeleton\Helper;
+namespace Acme\Helper;
 
 class Env
 {
-    /** @var string */
-    protected $path;
+	/** @var string */
+	protected string $path;
 
-    /** @var mixed */
-    protected $content = false;
+	/** @var mixed */
+	protected mixed $parseContent;
 
-    public function __construct(string $path)
-    {
-        $this->path = $path;
-    }
+	protected bool $parsed = false;
 
-    public function parse()
-    {
-        if ($this->content === false) {
-            $content = parse_ini_file($this->path, true);
-            $this->content = $content === false ? null : $content;
-        }
-        return $this->content;
-    }
+	public function __construct(string $path)
+	{
+		$this->path = $path;
+	}
 
-    public function get(string $name, $default = null)
-    {
-        $content = $this->parse();
+	public function getParseContent(): ?array
+	{
+		if (!$this->parsed) {
+			$this->parseContent = parse_ini_file($this->path, true);
+		}
 
-        if ($content === null) {
-            return $default;
-        }
-        $nameSeparate = explode('.', $name);
-        foreach ($nameSeparate as $item) {
-            if (!isset($content[$item])) {
-                return $default;
-            }
-            $content = $content[$item];
-        }
-        return $content;
-    }
+		return $this->parseContent;
+	}
 
-    public function all()
-    {
-        return $this->parse();
-    }
+	public function get(string $name, $default = null)
+	{
+		$content = $this->getParseContent();
+
+		if ($content === null) {
+			return $default;
+		}
+		$nameSeparate = explode('.', $name);
+		foreach ($nameSeparate as $item) {
+			if (!isset($content[$item])) {
+				return $default;
+			}
+			$content = $content[$item];
+		}
+		return $content;
+	}
+
+	public function all(): ?array
+	{
+		return $this->getParseContent();
+	}
 }

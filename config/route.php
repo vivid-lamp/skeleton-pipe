@@ -4,40 +4,21 @@ declare(strict_types=1);
 
 namespace VividLamp\PipeSkeleton\Config;
 
-use FastRoute\RouteCollector;
-use VividLamp\PipeSkeleton\App\Controller\Home;
-use VividLamp\PipeSkeleton\App\Middleware\RouteMiddleware;
+use Acme\App\Controller\Index;
+use League\Route\Router;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-/**
- * @author zhanglihui
- */
-$aggregation = new class {
-    protected $middleware;
-    public function middleware(...$middleware)
-    {
-        $this->middleware = $middleware;
-        return $this;
-    }
-    /**
-     * @param string $handler
-     * @param string|null $name 路由名称，如 home.index
-     * @return array
-     */
-    public function handler(string $handler, ?string $name = null): array
-    {
-        return ['handler' => $handler, 'middleware' => $this->middleware, 'name' => $name];
-    }
-};
+return static function (ContainerInterface $container): RequestHandlerInterface {
 
-/**
- * 路由注册
- * @param RouteCollector $collector
- * @see RouteMiddleware
- * @author zhanglihui
- */
-return function (RouteCollector $collector) use ($aggregation) {
-    
-        // $aggregation->middleware(AuthMiddleware::class);
+	$strategy = new \League\Route\Strategy\ApplicationStrategy();
+	$strategy->setContainer($container);
 
-    $collector->get('/', $aggregation->handler(Home::class . '@index', 'home.index'));
+	$router = new Router();
+	$router->setStrategy($strategy);
+
+	$router->get('/', Index::class);
+
+
+	return $router;
 };

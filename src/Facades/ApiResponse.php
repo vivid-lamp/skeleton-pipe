@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace VividLamp\PipeSkeleton\Facades;
+namespace Acme\Facades;
 
-use VividLamp\PipeSkeleton\Helper\Facade;
+use Acme\Helper\Facade;
 
 /**
- * @see \VividLamp\PipeSkeleton\Helper\ApiResponse
- * @mixin \VividLamp\PipeSkeleton\Helper\ApiResponse
+ * @see \Acme\Helper\ApiResponse
+ * @mixin \Acme\Helper\ApiResponse
  */
 class ApiResponse extends Facade
 {
     protected static function getFacadeClass(): string
     {
-        return \VividLamp\PipeSkeleton\Helper\ApiResponse::class;
+        return \Acme\Helper\ApiResponse::class;
     }
 }
