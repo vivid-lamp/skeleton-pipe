@@ -1,5 +1,5 @@
 {
-    "name": "cert/demo",
+    "name": "vivid-lamp/pipe-skeleton",
     "description": "",
     "type": "project",
     "authors": [
@@ -9,14 +9,11 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "psr/http-server-middleware": "^1.0",
         "laminas/laminas-diactoros": "^2.0",
         "illuminate/container": "^9.0",
-      "ext-json": "*",
-        "league/plates": "^3.5",
-        "topthink/think-orm": "^3.0",
-        "topthink/think-validate": "^2.0",
+        "ext-json": "*",
         "relay/relay": "^2.1",
         "league/route": "^5.1",
         "mezzio/mezzio-helpers": "^5.11"
