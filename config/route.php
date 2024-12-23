@@ -4,24 +4,16 @@ declare(strict_types=1);
 
 namespace VividLamp\PipeSkeleton\Config;
 
-use Acme\App\Controller\Index;
-use Acme\App\Middleware\ExceptionHandlerMiddleware;
 use League\Route\Router;
-use League\Route\Strategy\ApplicationStrategy;
-use Psr\Container\ContainerInterface;
+use League\Route\Strategy\StrategyInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-return static function (ContainerInterface $container): RequestHandlerInterface {
+return static function (StrategyInterface $routeStrategy): RequestHandlerInterface {
+    $router = new Router();
+    $router->setStrategy($routeStrategy);
 
-	$strategy = new ApplicationStrategy();
-	$strategy->setContainer($container);
+    $router->get('/', [\VividLamp\PipeSkeleton\Operation\Controller\Index::class, 'index']);
+    $router->get('/{id}', [\VividLamp\PipeSkeleton\Operation\Controller\Index::class, 'show']);
 
-	$router = new Router();
-	$router->setStrategy($strategy);
-
-    $router->lazyMiddleware(ExceptionHandlerMiddleware::class);
-
-	$router->get('/', Index::class);
-
-	return $router;
+    return $router;
 };

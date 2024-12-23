@@ -1,29 +1,38 @@
 <?php
 
-namespace Acme\Server\Http;
+declare(strict_types=1);
 
-use Psr\Container\ContainerInterface;
+namespace VividLamp\PipeSkeleton\Server\Http;
+
 use Psr\Http\Message\ServerRequestInterface;
-use React\Http\Message\Response;
+use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
+use React\Http\HttpServer;
+use React\Socket\SocketServer;
 
 class React implements ServerInterface
 {
     public function __construct(
-        protected ContainerInterface $container,
-    )
-    {
+        protected RequestHandlerInterface $requestHandler,
+        protected LoggerInterface         $logger,
+        protected string                  $host = '0.0.0.0',
+        protected int                     $port = 8080
+    ) {
     }
 
     public function serve(): void
     {
-        $handler = (require 'config/route.php')($this->container);
-
-        $http = new \React\Http\HttpServer(function (ServerRequestInterface $request) use ($handler) {
-            echo $request->getUri()->getPath(), PHP_EOL;
-            return $handler->handle($request);
+        $http = new HttpServer(function (ServerRequestInterface $request) {
+            $response = $this->requestHandler->handle($request);
+            $this->logger->info('{method} {status} {uri}', [
+                'method' => $request->getMethod(),
+                'uri'    => (string)$request->getUri(),
+                'status' => $response->getStatusCode(),
+            ]);
+            return $response;
         });
 
-        $socket = new \React\Socket\SocketServer('0.0.0.0:8081');
+        $socket = new SocketServer("tcp://{$this->host}:{$this->port}");
         $http->listen($socket);
     }
 }

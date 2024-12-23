@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // 默认数据连接标识
     'default' => 'mysql',

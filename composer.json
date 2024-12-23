@@ -14,17 +14,15 @@
         "laminas/laminas-diactoros": "^2.0",
         "illuminate/container": "^9.0",
         "ext-json": "*",
-        "relay/relay": "^2.1",
         "league/route": "^5.1",
-        "mezzio/mezzio-helpers": "^5.11"
+        "mezzio/mezzio-helpers": "^5.11",
+        "wyrihaximus/react-psr-3-stdio": "^3.0",
+        "react/http": "^1.11"
     },
 
     "autoload": {
         "psr-4": {
-            "Acme\\": "src/"
+            "VividLamp\\PipeSkeleton\\": "src/"
         }
-    },
-    "require-dev": {
-        "react/http": "^1.8"
     }
 }

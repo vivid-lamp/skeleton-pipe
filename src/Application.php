@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Acme;
+namespace VividLamp\PipeSkeleton;
 
-use Acme\Server\Http\ServerInterface as HttpServerInterface;
+use VividLamp\PipeSkeleton\Server\Http\ServerInterface as HttpServerInterface;
+use ErrorException;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -12,29 +13,47 @@ use Psr\Container\ContainerInterface;
  */
 class Application
 {
-	private static Application $instance;
+    protected static Application $instance;
 
-	public function __construct(
-        protected ContainerInterface $container,
-        protected HttpServerInterface $httpServer
-    )
-	{
-		self::$instance = $this;
-	}
+    /**
+     * @throws ErrorException
+     */
+    public function __construct(
+        protected ContainerInterface  $container,
+        protected HttpServerInterface $http,
+    ) {
+        self::$instance = $this;
+        $this->setErrorHandler();
+    }
 
-	public static function get(): Application
-	{
-		return self::$instance;
-	}
+    public static function get(): Application
+    {
+        return static::$instance;
+    }
 
-	public function container(): ContainerInterface
-	{
-		return $this->container;
-	}
+    protected function setErrorHandler(): void
+    {
+        error_reporting(E_ALL);
+
+        /**
+         * @throws ErrorException
+         */
+        $errorHandler = function (int $errno, string $err_str, string $err_file = '', int $err_line = 0) {
+            if (error_reporting() & $errno) {
+                throw new ErrorException($err_str, 0, $errno, $err_file, $err_line);
+            }
+        };
+
+        set_error_handler($errorHandler);
+    }
+
+    public function container(): ContainerInterface
+    {
+        return $this->container;
+    }
 
     public function http(): HttpServerInterface
     {
-        return $this->httpServer;
+        return $this->http;
     }
-
 }
