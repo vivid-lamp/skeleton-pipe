@@ -9,6 +9,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 use React\Http\HttpServer;
 use React\Socket\SocketServer;
+use function React\Async\async;
 
 class React implements ServerInterface
 {
@@ -22,7 +23,7 @@ class React implements ServerInterface
 
     public function serve(): void
     {
-        $http = new HttpServer(function (ServerRequestInterface $request) {
+        $http = new HttpServer(async(function(ServerRequestInterface $request) {
             $response = $this->requestHandler->handle($request);
             $this->logger->info('{method} {status} {uri}', [
                 'method' => $request->getMethod(),
@@ -30,7 +31,7 @@ class React implements ServerInterface
                 'status' => $response->getStatusCode(),
             ]);
             return $response;
-        });
+        }));
 
         $socket = new SocketServer("tcp://{$this->host}:{$this->port}");
         $http->listen($socket);
