@@ -23,9 +23,9 @@ class React implements ServerInterface
 
     public function serve(): void
     {
-        $http = new HttpServer(async(function(ServerRequestInterface $request) {
+        $http = new HttpServer(async(function (ServerRequestInterface $request) {
             $response = $this->requestHandler->handle($request);
-            $this->logger->info('{method} {status} {uri}', [
+            $this->logger->info('{method} {uri} {status}', [
                 'method' => $request->getMethod(),
                 'uri'    => (string)$request->getUri(),
                 'status' => $response->getStatusCode(),

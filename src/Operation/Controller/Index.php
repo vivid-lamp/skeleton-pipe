@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 use VividLamp\PipeSkeleton\Helper\ApiResponse;
 use function React\Async\await;
+use function React\Promise\all;
 
 class Index
 {
@@ -22,8 +23,15 @@ class Index
      */
     public function show(ServerRequestInterface $request): ResponseInterface
     {
-        $timer = \React\Promise\Timer\sleep(1);
-        await($timer);
-        return ApiResponse::success(null, ['id' => $request->getAttribute('id'), 'name' => 'vivid-lamp', 'time' => time()]);
+        await(all([
+            \React\Promise\Timer\sleep(1),
+            \React\Promise\Timer\sleep(1),
+            \React\Promise\Timer\sleep(1),
+        ]));
+        return ApiResponse::success(null, [
+            'id'   => $request->getAttribute('id'),
+            'name' => 'vivid-lamp',
+            'time' => time()
+        ]);
     }
 }
